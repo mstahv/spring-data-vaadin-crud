@@ -8,6 +8,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.maddon.button.ConfirmButton;
 import org.vaadin.maddon.button.MButton;
 import org.vaadin.maddon.fields.MTable;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
@@ -32,7 +33,8 @@ public class MainUI extends UI {
 
     private Button addNew = new MButton(FontAwesome.PLUS, this::add);
     private Button edit = new MButton(FontAwesome.PENCIL_SQUARE_O, this::edit);
-    private Button delete = new MButton(FontAwesome.TRASH_O, this::remove);
+    private Button delete = new ConfirmButton(FontAwesome.TRASH_O,
+            "Are you sure you want to delete the entry?", this::remove);
 
     @Override
     protected void init(VaadinRequest request) {

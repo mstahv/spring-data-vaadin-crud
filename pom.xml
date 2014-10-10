@@ -10,12 +10,12 @@
     <description>Simple CRUD with Vaadin and Spring Data back end</description>
     
     <properties>
-        <start-class>org.vaadin.tindra.Application</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <version.vaadin>7.3.2</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
         <geotools.version>10.2</geotools.version>
+        <start-class>crud.Application</start-class>
     </properties>
 
     <parent>
@@ -25,7 +25,6 @@
     </parent>
 
     <dependencies>
-        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -85,7 +84,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>maddon</artifactId>
-            <version>1.14</version>
+            <version>1.15</version>
         </dependency>
     </dependencies>
 
@@ -104,7 +103,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        
     </build>
 
     <repositories>
