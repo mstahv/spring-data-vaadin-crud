@@ -1,5 +1,5 @@
 
-package crud;
+package crud.backend;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

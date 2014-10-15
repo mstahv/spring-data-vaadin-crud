@@ -1,4 +1,4 @@
-package crud;
+package crud.vaadin;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -7,6 +7,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
+import crud.backend.Person;
+import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.maddon.button.ConfirmButton;
 import org.vaadin.maddon.button.MButton;
