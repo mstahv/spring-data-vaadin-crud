@@ -6,13 +6,19 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.maddon.button.ConfirmButton;
 import org.vaadin.maddon.button.MButton;
 import org.vaadin.maddon.fields.MTable;
+import org.vaadin.maddon.fields.MValueChangeEvent;
+import org.vaadin.maddon.fields.MValueChangeListener;
+import org.vaadin.maddon.form.AbstractForm;
+import org.vaadin.maddon.label.RichText;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.spring.VaadinUI;
@@ -33,21 +39,45 @@ public class MainUI extends UI {
             .withColumnHeaders("Name", "Email")
             .withFullWidth();
 
-    private Button addNew = new MButton(FontAwesome.PLUS, this::add);
-    private Button edit = new MButton(FontAwesome.PENCIL_SQUARE_O, this::edit);
+    private Button addNew = new MButton(FontAwesome.PLUS, new Button.ClickListener() {
+
+        @Override
+        public void buttonClick(ClickEvent event) {
+            add(event);
+        }
+    });
+    private Button edit = new MButton(FontAwesome.PENCIL_SQUARE_O, new Button.ClickListener() {
+
+        @Override
+        public void buttonClick(ClickEvent event) {
+            edit(event);
+        }
+    });
     private Button delete = new ConfirmButton(FontAwesome.TRASH_O,
-            "Are you sure you want to delete the entry?", this::remove);
+            "Are you sure you want to delete the entry?", new Button.ClickListener() {
+
+        @Override
+        public void buttonClick(ClickEvent event) {
+            remove(event);
+        }
+    });
 
     @Override
     protected void init(VaadinRequest request) {
         setContent(
                 new MVerticalLayout(
+                        new RichText().withMarkDownResource("/welcome.md"),
                         new MHorizontalLayout(addNew, edit, delete),
                         list
                 ).expand(list)
         );
         listEntities();
-        list.addMValueChangeListener(e -> adjustActionButtonState());
+        list.addMValueChangeListener(new MValueChangeListener<Person>() {
+
+            public void valueChange(MValueChangeEvent<Person> e) {
+                adjustActionButtonState();
+            }
+        });
     }
 
     protected void adjustActionButtonState() {
@@ -79,8 +109,18 @@ public class MainUI extends UI {
         PhoneBookEntryForm phoneBookEntryForm = new PhoneBookEntryForm(
                 phoneBookEntry);
         phoneBookEntryForm.openInModalPopup();
-        phoneBookEntryForm.setSavedHandler(this::saveEntry);
-        phoneBookEntryForm.setResetHandler(this::resetEntry);
+        phoneBookEntryForm.setSavedHandler(new AbstractForm.SavedHandler<Person>() {
+
+            public void onSave(Person entry) {
+                MainUI.this.saveEntry(entry);
+            }
+        });
+        phoneBookEntryForm.setResetHandler(new AbstractForm.ResetHandler<Person>() {
+
+            public void onReset(Person entry) {
+                MainUI.this.resetEntry(entry);
+            }
+        });
     }
 
     public void saveEntry(Person entry) {
@@ -95,7 +135,9 @@ public class MainUI extends UI {
     }
 
     protected void closeWindow() {
-        getWindows().stream().forEach(w -> removeWindow(w));
+        for (Window w : getWindows().toArray(new Window[0])) {
+            removeWindow(w);
+        }
     }
 
 }
