@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.3.2</version.vaadin>
+        <version.vaadin>7.3.5</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
         <geotools.version>10.2</geotools.version>
         <start-class>crud.Application</start-class>
@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.5.RELEASE</version>
+        <version>1.1.8.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.peimari</groupId>
             <artifactId>maddon</artifactId>
-            <version>1.15</version>
+            <version>1.19</version>
         </dependency>
     </dependencies>
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.maddon.button.ConfirmButton;
 import org.vaadin.maddon.button.MButton;
 import org.vaadin.maddon.fields.MTable;
+import org.vaadin.maddon.label.RichText;
 import org.vaadin.maddon.layouts.MHorizontalLayout;
 import org.vaadin.maddon.layouts.MVerticalLayout;
 import org.vaadin.spring.VaadinUI;
@@ -42,6 +43,7 @@ public class MainUI extends UI {
     protected void init(VaadinRequest request) {
         setContent(
                 new MVerticalLayout(
+                        new RichText().withMarkDownResource("/welcome.md"),
                         new MHorizontalLayout(addNew, edit, delete),
                         list
                 ).expand(list)
