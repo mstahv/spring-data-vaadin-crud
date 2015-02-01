@@ -5,10 +5,10 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.TextField;
 import crud.backend.Person;
-import org.vaadin.maddon.fields.MTextField;
-import org.vaadin.maddon.form.AbstractForm;
-import org.vaadin.maddon.layouts.MFormLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.form.AbstractForm;
+import org.vaadin.viritin.layouts.MFormLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 public class PhoneBookEntryForm extends AbstractForm<Person> {
 
@@ -20,7 +20,6 @@ public class PhoneBookEntryForm extends AbstractForm<Person> {
 
     PhoneBookEntryForm(Person phoneBookEntry) {
         setSizeUndefined();
-        setEagarValidation(true);
         setEntity(phoneBookEntry);
     }
 

@@ -10,13 +10,15 @@ import com.vaadin.ui.UI;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vaadin.maddon.button.ConfirmButton;
-import org.vaadin.maddon.button.MButton;
-import org.vaadin.maddon.fields.MTable;
-import org.vaadin.maddon.label.RichText;
-import org.vaadin.maddon.layouts.MHorizontalLayout;
-import org.vaadin.maddon.layouts.MVerticalLayout;
+import org.springframework.data.domain.PageRequest;
 import org.vaadin.spring.VaadinUI;
+import org.vaadin.viritin.LazyList;
+import org.vaadin.viritin.button.ConfirmButton;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTable;
+import org.vaadin.viritin.label.RichText;
+import org.vaadin.viritin.layouts.MHorizontalLayout;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 /**
  *
@@ -30,8 +32,8 @@ public class MainUI extends UI {
     PersonRepository repo;
 
     private MTable<Person> list = new MTable(Person.class)
-            .withProperties("name", "email")
-            .withColumnHeaders("Name", "Email")
+            .withProperties("id","name", "email")
+            .withColumnHeaders("id","Name", "Email")
             .withFullWidth();
 
     private Button addNew = new MButton(FontAwesome.PLUS, this::add);
@@ -58,8 +60,17 @@ public class MainUI extends UI {
         delete.setEnabled(hasSelection);
     }
 
+    static final int pageSize = 45;
+
     private void listEntities() {
-        list.setBeans(repo.findAll());
+        // Lazy binding with LazyList, can fetching strategies can be given
+        // to MTable constructor as well
+        list.setBeans(new LazyList<>(
+                firstRow -> repo.findAll(new PageRequest(firstRow/pageSize, pageSize))
+                .getContent(),
+                () -> (int) repo.count(), pageSize));
+        // A simple in memory listing:     
+        // list.setBeans(repo.findAll());
         adjustActionButtonState();
     }
 

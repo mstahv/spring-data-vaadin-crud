@@ -82,9 +82,9 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.peimari</groupId>
-            <artifactId>maddon</artifactId>
-            <version>1.19</version>
+            <groupId>org.vaadin</groupId>
+            <artifactId>viritin</artifactId>
+            <version>1.25</version>
         </dependency>
     </dependencies>
 
