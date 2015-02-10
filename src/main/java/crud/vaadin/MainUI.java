@@ -11,8 +11,10 @@ import crud.backend.Person;
 import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.vaadin.spring.VaadinUI;
 import org.vaadin.viritin.LazyList;
+import org.vaadin.viritin.SortableLazyList;
 import org.vaadin.viritin.button.ConfirmButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.fields.MTable;
@@ -32,8 +34,9 @@ public class MainUI extends UI {
     PersonRepository repo;
 
     private MTable<Person> list = new MTable(Person.class)
-            .withProperties("id","name", "email")
-            .withColumnHeaders("id","Name", "Email")
+            .withProperties("id", "name", "email")
+            .withColumnHeaders("id", "Name", "Email")
+            .setSortableProperties("name", "email")
             .withFullWidth();
 
     private Button addNew = new MButton(FontAwesome.PLUS, this::add);
@@ -60,18 +63,31 @@ public class MainUI extends UI {
         delete.setEnabled(hasSelection);
     }
 
-    static final int pageSize = 45;
+    static final int PAGESIZE = 45;
 
     private void listEntities() {
-        // Lazy binding with LazyList, can fetching strategies can be given
-        // to MTable constructor as well
-        list.setBeans(new LazyList<>(
-                firstRow -> repo.findAll(new PageRequest(firstRow/pageSize, pageSize))
-                .getContent(),
-                () -> (int) repo.count(), pageSize));
-        // A simple in memory listing:     
+        // Lazy binding with SortableLazyList: memory and query efficient 
+        // connection from Vaadin Table to Spring Repository
+        // Note that fetching strategies can be given to MTable constructor as well
+        list.setBeans(new SortableLazyList<>(
+                // entity fetching strategy
+                (firstRow, asc, sortProperty) -> repo.findAll(
+                        new PageRequest(
+                                firstRow / PAGESIZE, 
+                                PAGESIZE,
+                                asc ? Sort.Direction.ASC : Sort.Direction.DESC,
+                                // fall back to id as "natural order"
+                                sortProperty == null ? "id" : sortProperty
+                        )
+                ).getContent(),
+                // count fetching strategy
+                () -> (int) repo.count(),
+                PAGESIZE
+        ));
+        // A dead simple in memory listing would be:
         // list.setBeans(repo.findAll());
         adjustActionButtonState();
+
     }
 
     public void add(ClickEvent clickEvent) {
