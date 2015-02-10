@@ -68,7 +68,9 @@ public class MainUI extends UI {
     private void listEntities() {
         // Lazy binding with SortableLazyList: memory and query efficient 
         // connection from Vaadin Table to Spring Repository
-        // Note that fetching strategies can be given to MTable constructor as well
+        // Note that fetching strategies can be given to MTable constructor as well.
+        // Use this approach if you expect you'll have lots of data in your 
+        // table.
         list.setBeans(new SortableLazyList<>(
                 // entity fetching strategy
                 (firstRow, asc, sortProperty) -> repo.findAll(
