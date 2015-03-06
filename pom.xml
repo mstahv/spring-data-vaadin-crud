@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.vaadin.spring</groupId>
             <artifactId>spring-boot-vaadin</artifactId>
-            <version>0.0.2.1</version>
+            <version>0.0.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.26</version>
+            <version>1.28</version>
         </dependency>
     </dependencies>
 
