@@ -9,6 +9,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
+import crud.backend.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -31,7 +32,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class MainUI extends UI {
 
     @Autowired
-    PersonRepository repo;
+    PersonService service;
+    
+    @Autowired
+    PhoneBookEntryForm form;
 
     private MTable<Person> list = new MTable(Person.class)
             .withProperties("id", "name", "email")
@@ -73,7 +77,7 @@ public class MainUI extends UI {
         // table.
         list.setBeans(new SortableLazyList<>(
                 // entity fetching strategy
-                (firstRow, asc, sortProperty) -> repo.findAll(
+                (firstRow, asc, sortProperty) -> service.findAll(
                         new PageRequest(
                                 firstRow / PAGESIZE, 
                                 PAGESIZE,
@@ -83,7 +87,7 @@ public class MainUI extends UI {
                         )
                 ).getContent(),
                 // count fetching strategy
-                () -> (int) repo.count(),
+                () -> (int) service.count(),
                 PAGESIZE
         ));
         // A dead simple in memory listing would be:
@@ -101,21 +105,22 @@ public class MainUI extends UI {
     }
 
     public void remove(ClickEvent e) {
-        repo.delete(list.getValue());
+        service.delete(list.getValue());
         list.setValue(null);
         listEntities();
     }
 
-    protected void edit(final Person phoneBookEntry) {
-        PhoneBookEntryForm phoneBookEntryForm = new PhoneBookEntryForm(
-                phoneBookEntry);
-        phoneBookEntryForm.openInModalPopup();
-        phoneBookEntryForm.setSavedHandler(this::saveEntry);
-        phoneBookEntryForm.setResetHandler(this::resetEntry);
+    protected void edit(Person entry) {
+        // fetch an instance with relations set
+        Person personWithRelations = service.fetchForEditing(entry);
+        form.setEntity(personWithRelations);
+        form.setSavedHandler(this::saveEntry);
+        form.setResetHandler(this::resetEntry);
+        form.openInModalPopup();
     }
 
     public void saveEntry(Person entry) {
-        repo.save(entry);
+        service.save(entry);
         listEntities();
         closeWindow();
     }

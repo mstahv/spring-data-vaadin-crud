@@ -84,7 +84,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.28</version>
+            <version>1.29-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -144,6 +144,18 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        
+        <repository>
+            <id>viritin</id>
+            <url>http://virit.in/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+
 
     </repositories>
     <pluginRepositories>
