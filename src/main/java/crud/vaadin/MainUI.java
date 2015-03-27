@@ -78,9 +78,10 @@ public class MainUI extends UI {
         // Note that fetching strategies can be given to MTable constructor as well.
         // Use this approach if you expect you'll have lots of data in your 
         // table.
+        
         list.setBeans(new SortableLazyList<>(
                 // entity fetching strategy
-                (firstRow, asc, sortProperty) -> repo.findAll(
+                (firstRow, asc, sortProperty) -> repo.findByIdGreaterThan(0,
                         new PageRequest(
                                 firstRow / PAGESIZE, 
                                 PAGESIZE,
@@ -88,7 +89,7 @@ public class MainUI extends UI {
                                 // fall back to id as "natural order"
                                 sortProperty == null ? "id" : sortProperty
                         )
-                ).getContent(),
+                ),
                 // count fetching strategy
                 () -> (int) repo.count(),
                 PAGESIZE
