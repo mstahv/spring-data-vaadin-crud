@@ -26,11 +26,16 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    @Bean
+    public in.virit.WidgetSet viritinCdnInitializer() {
+        return new in.virit.WidgetSet();
+    }
+
     /**
-     * Configure embedded tomcat so that is uses gzip for static resources.
+     * Configure embedded tomcat so that is uses gzip for static resources. 
      * This is optional, but highly suggested for improved startup time.
-     * 
-     * @return 
+     *
+     * @return
      */
     @Bean
     public EmbeddedServletContainerCustomizer servletContainerCustomizer() {
