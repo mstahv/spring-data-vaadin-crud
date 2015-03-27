@@ -26,6 +26,14 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
+    /*
+     * If this don't compile, issue "mvn install" once. If it still don't 
+     * compile you are most likely using an odd IDE called Eclipse, which 
+     * don't really get maven projects, so you need to configure the 
+     * generated sources from target/generated-sources/vwscdn to be 
+     * included on your classpath: right click on project -> Properties -> 
+     * Java build path -> Source tab -> Add folder.
+     */
     @Bean
     public in.virit.WidgetSet viritinCdnInitializer() {
         return new in.virit.WidgetSet();
