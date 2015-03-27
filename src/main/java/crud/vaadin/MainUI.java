@@ -4,6 +4,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
@@ -12,8 +13,6 @@ import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.vaadin.viritin.LazyList;
-import org.vaadin.spring.annotation.VaadinUI;
 import org.vaadin.viritin.SortableLazyList;
 import org.vaadin.viritin.button.ConfirmButton;
 import org.vaadin.viritin.button.MButton;
@@ -27,7 +26,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
  */
 @Title("PhoneBook CRUD example")
 @Theme("valo")
-@VaadinUI
+@SpringUI
 public class MainUI extends UI {
 
     @Autowired
@@ -66,6 +65,9 @@ public class MainUI extends UI {
     static final int PAGESIZE = 45;
 
     private void listEntities() {
+        // A dead simple in memory listing would be:
+        // list.setBeans(repo.findAll());
+
         // Lazy binding with SortableLazyList: memory and query efficient 
         // connection from Vaadin Table to Spring Repository
         // Note that fetching strategies can be given to MTable constructor as well.
@@ -86,8 +88,6 @@ public class MainUI extends UI {
                 () -> (int) repo.count(),
                 PAGESIZE
         ));
-        // A dead simple in memory listing would be:
-        // list.setBeans(repo.findAll());
         adjustActionButtonState();
 
     }
