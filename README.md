@@ -1,8 +1,10 @@
 # Spring Data JPA CRUD with Vaadin
 
-A super simple single table CRUD example with [Spring Data JPA](http://projects.spring.io/spring-data-jpa/) and [Vaadin](https://vaadin.com). Uses [Spring Boot](http://projects.spring.io/spring-boot/) for easy project setup and development. Helps you to get started with basic JPA backed applications and [vaadin4spring](https://github.com/peholmst/vaadin4spring) integration library.
+A super simple single table CRUD example with [Spring Data JPA](http://projects.spring.io/spring-data-jpa/) and [Vaadin](https://vaadin.com). Uses [Spring Boot](http://projects.spring.io/spring-boot/) for easy project setup and development. Helps you to get started with basic JPA backed applications and [Vaadin Spring Boot](https://vaadin.com/addon/vaadin-spring-boot) integration library.
 
 For larger applications, consider applying some commonly known design patterns for your UI code. Check e.g. [this MVP example](https://github.com/peholmst/vaadin4spring/tree/master/spring-vaadin-mvp).
+
+As an example for a really easy Vaadin add-on usage, there is Switch add-on added as a dependency and the application uses [cdn.virit.in](http://cdn.virit.in) service to compile and host the widgetset. See [this changeset](https://github.com/mstahv/spring-data-vaadin-crud/commit/2d67627d5757ec952d410e86ea9928747a7bef21?w=1) for setup instructions.
 
 ## How to play with this example
 
