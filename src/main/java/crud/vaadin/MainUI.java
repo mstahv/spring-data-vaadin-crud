@@ -29,10 +29,10 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @SpringUI
 public class MainUI extends UI {
 
-    @Autowired
+	@Autowired
     PersonRepository repo;
 
-    private MTable<Person> list = new MTable(Person.class)
+    private MTable<Person> list = new MTable<>(Person.class)
             .withProperties("id", "name", "email")
             .withColumnHeaders("id", "Name", "Email")
             .setSortableProperties("name", "email")
