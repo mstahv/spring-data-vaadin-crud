@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PersonRepository extends JpaRepository<Person, Long> {
     
-    List<Person> findByIdGreaterThan(long dummyId, Pageable pageable);
-    
+    /* A version to fetch List instead of Page to avoid extra count query. */
+    List<Person> findAllBy(Pageable pageable);
 }

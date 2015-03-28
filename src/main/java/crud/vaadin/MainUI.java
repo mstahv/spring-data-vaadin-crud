@@ -81,7 +81,7 @@ public class MainUI extends UI {
         
         list.setBeans(new SortableLazyList<>(
                 // entity fetching strategy
-                (firstRow, asc, sortProperty) -> repo.findByIdGreaterThan(0,
+                (firstRow, asc, sortProperty) -> repo.findAllBy(
                         new PageRequest(
                                 firstRow / PAGESIZE, 
                                 PAGESIZE,
