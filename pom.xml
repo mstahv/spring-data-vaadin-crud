@@ -7,21 +7,20 @@
     <artifactId>spring-data-vaadin-crud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <description>Simple CRUD with Vaadin and Spring Data back end</description>
+    <description>Simple CRUD with Vaadin and Spring Data backend</description>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.4.2</version.vaadin>
+        <version.vaadin>7.5.0</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
-        <geotools.version>10.2</geotools.version>
         <start-class>crud.Application</start-class>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.2.2.RELEASE</version>
+        <version>1.2.4.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -46,13 +45,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot</artifactId>
-            <version>1.0.0.beta1</version>
+            <version>1.0.0.beta3</version>
         </dependency>
-
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-server</artifactId>
@@ -66,9 +63,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-themes</artifactId>
-            <version>${version.vaadin}</version>
+           <groupId>org.peimari</groupId>
+           <artifactId>dawn</artifactId>
+           <version>7</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -77,12 +74,12 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.30</version>
+            <version>1.34</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.teemu</groupId>
             <artifactId>switch</artifactId>
-            <version>2.0.1</version>
+            <version>2.0.2</version>
         </dependency>
     </dependencies>
 
@@ -114,6 +111,41 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									in.virit.vwscdn
+        								</groupId>
+        								<artifactId>
+        									vwscdn-maven-plugin
+        								</artifactId>
+        								<versionRange>
+        									[1.3.4,)
+        								</versionRange>
+        								<goals>
+        									<goal>generate</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
     </build>
 
     <repositories>
