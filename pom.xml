@@ -57,15 +57,15 @@
             <exclusions>
                 <!-- Remove some obsolete stuff not needed by server side Vaadin apps -->
                 <exclusion>
-                    <artifactId>vaadin-theme-compiler</artifactId>
                     <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-sass-compiler</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
            <groupId>org.peimari</groupId>
            <artifactId>dawn</artifactId>
-           <version>9</version>
+           <version>11</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
