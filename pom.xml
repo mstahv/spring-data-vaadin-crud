@@ -110,18 +110,6 @@
                       </execution>
                   </executions>
             </plugin>
-            <plugin>
-                <groupId>in.virit.vwscdn</groupId>
-                <artifactId>vwscdn-maven-plugin</artifactId>
-                <version>1.3.6</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
