@@ -85,4 +85,26 @@ public class Person implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+ if (this == obj) {
+            return true;
+        }
+        if(this.id == 0) {
+            return false;
+        }
+
+        if (obj instanceof Person && obj.getClass().equals(getClass())) {
+            return this.id ==  ((Person) obj).id;
+        }
+
+        return false;    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 43 * hash + ((int)id);
+        return hash;
+    }
+
 }

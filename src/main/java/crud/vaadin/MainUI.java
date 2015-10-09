@@ -58,6 +58,16 @@ public class MainUI extends UI {
                 ).expand(list)
         );
         listEntities();
+        
+        
+        Person firstFromRepo = repo.findAll(new PageRequest(0, 1)).getContent().get(0);
+
+
+        list.setSelectable(true);
+        list.setValue(firstFromRepo);
+        // move keyboard focus to Table as well
+        list.focus();
+        
         list.addMValueChangeListener(e -> adjustActionButtonState());
     }
 
