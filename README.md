@@ -14,12 +14,23 @@ As an example for a really easy Vaadin add-on usage, there is Switch add-on adde
 * Import to your favorite IDE
 * Execute the main method from Application class
 
-### Just execute it
+### Just execute it with maven
 
 ```
 git clone https://github.com/mstahv/spring-data-vaadin-crud.git
 cd spring-data-vaadin-crud
 mvn spring-boot:run
+```
+
+### Just create the package and run it
+
+The built .jar file is auto-runnable, so as you can move it to any computer having java installed and run the app. 
+
+```
+git clone https://github.com/mstahv/spring-data-vaadin-crud.git
+cd spring-data-vaadin-crud
+mvn package
+java -jar target/spring-data-vaadin-crud-0.0.1-SNAPSHOT.jar
 ```
 
 ### Just deploy it
