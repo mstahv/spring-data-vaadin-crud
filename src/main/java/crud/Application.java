@@ -22,8 +22,8 @@ public class Application {
      * Java build path -> Source tab -> Add folder.
      */
     @Bean
-    public in.virit.WidgetSet viritinCdnInitializer() {
-        return new in.virit.WidgetSet();
+    public com.vaadin.wscdn.WidgetSet viritinCdnInitializer() {
+        return new com.vaadin.wscdn.WidgetSet();
     }
 
     @Bean
