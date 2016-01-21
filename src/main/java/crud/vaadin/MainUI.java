@@ -2,6 +2,7 @@ package crud.vaadin;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
@@ -27,6 +28,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @Title("PhoneBook CRUD example")
 @Theme("valo")
 @SpringUI
+@Widgetset("AppWidgetset")
 public class MainUI extends UI {
 
 	/**

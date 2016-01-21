@@ -98,17 +98,31 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.vaadin.wscdn</groupId>
-                <artifactId>wscdn-maven-plugin</artifactId>
-                <version>0.0.2</version>
-                  <executions>
-                      <execution>
-                          <phase>generate-sources</phase>
-                          <goals>
-                              <goal>generate</goal>
-                          </goals>
-                      </execution>
-                  </executions>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.plugin.version}</version>
+                <configuration>
+                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+                    <webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>
+                    <draftCompile>false</draftCompile>
+                    <compileReport>false</compileReport>
+                    <style>OBF</style>
+                    <strict>true</strict>
+                    <persistentunitcachedir>${basedir}/target/gwt-unitCache</persistentunitcachedir>
+                    <deploy>${basedir}/target/gwtdirt</deploy>
+                    <module>AppWidgetset</module>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--<goal>update-theme</goal>-->
+                            <goal>update-widgetset</goal>
+                            <goal>compile</goal>
+                            <!-- disabled by default to use on-the-fly theme compilation -->
+                            <!-- <goal>compile-theme</goal> -->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
