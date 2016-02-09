@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.6.1</version.vaadin>
+        <version.vaadin>7.6.2</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
         <start-class>crud.Application</start-class>
     </properties>
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>viritin</artifactId>
-            <version>1.41</version>
+            <version>1.44</version>
         </dependency>
         <dependency>
             <groupId>org.vaadin.teemu</groupId>
