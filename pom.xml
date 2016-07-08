@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.6.2</version.vaadin>
+        <version.vaadin>7.7.0.alpha3</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
         <start-class>crud.Application</start-class>
     </properties>
@@ -98,17 +98,20 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.vaadin.wscdn</groupId>
-                <artifactId>wscdn-maven-plugin</artifactId>
-                <version>0.0.2</version>
-                  <executions>
-                      <execution>
-                          <phase>generate-sources</phase>
-                          <goals>
-                              <goal>generate</goal>
-                          </goals>
-                      </execution>
-                  </executions>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>7.7.0.alpha3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>update-widgetset</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <widgetsetMode>cdn</widgetsetMode>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -136,6 +139,11 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>vaadin-prereleases</id>
+            <name>Vaadin Pre-releases</name>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
         </repository>
         <repository>
             <id>vaadin-addons</id>
@@ -170,6 +178,11 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>vaadin-prereleases</id>
+            <name>Vaadin Pre-releases</name>
+            <url>https://maven.vaadin.com/vaadin-prereleases</url>
         </pluginRepository>
     </pluginRepositories>
 
