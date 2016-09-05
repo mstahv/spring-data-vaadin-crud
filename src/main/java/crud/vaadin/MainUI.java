@@ -21,20 +21,11 @@ import org.vaadin.viritin.label.RichText;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
-/**
- *
- */
 @Title("PhoneBook CRUD example")
 @Theme("valo")
 @SpringUI
 public class MainUI extends UI {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Autowired
     PersonRepository repo;
 
     private MTable<Person> list = new MTable<>(Person.class)
@@ -47,6 +38,12 @@ public class MainUI extends UI {
     private Button edit = new MButton(FontAwesome.PENCIL_SQUARE_O, this::edit);
     private Button delete = new ConfirmButton(FontAwesome.TRASH_O,
             "Are you sure you want to delete the entry?", this::remove);
+
+
+    @Autowired
+    public MainUI(PersonRepository r) {
+        this.repo = r;
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -78,12 +75,11 @@ public class MainUI extends UI {
         // Note that fetching strategies can be given to MTable constructor as well.
         // Use this approach if you expect you'll have lots of data in your 
         // table.
-        
         list.setBeans(new SortableLazyList<>(
                 // entity fetching strategy
                 (firstRow, asc, sortProperty) -> repo.findAllBy(
                         new PageRequest(
-                                firstRow / PAGESIZE, 
+                                firstRow / PAGESIZE,
                                 PAGESIZE,
                                 asc ? Sort.Direction.ASC : Sort.Direction.DESC,
                                 // fall back to id as "natural order"
