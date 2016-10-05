@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.7.0</version.vaadin>
+        <version.vaadin>7.7.3</version.vaadin>
         <vaadin.plugin.version>${version.vaadin}</vaadin.plugin.version>
         <start-class>crud.Application</start-class>
     </properties>
@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.0.RELEASE</version>
+        <version>1.4.1.RELEASE</version>
     </parent>
     
     <dependencyManagement>
@@ -39,35 +39,53 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-spring-boot-starter</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin</groupId>
-			<artifactId>viritin</artifactId>
-			<version>1.56</version>
-		</dependency>
-		<dependency>
-			<groupId>org.vaadin.teemu</groupId>
-			<artifactId>switch</artifactId>
-			<version>2.0.2</version>
-		</dependency>
-
+        <!-- vaadin4spring https://github.com/peholmst/vaadin4spring
+             contains lots of handy helpers for serious Spring + Vaadin 
+             applications. This example uses event bus to decouple the editor 
+             form from the MainUI class.
+        -->
+        <dependency>
+            <groupId>org.vaadin.spring.extensions</groupId>
+            <artifactId>vaadin-spring-ext-boot</artifactId>
+            <version>0.0.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.spring.addons</groupId>
+            <artifactId>vaadin-spring-addon-eventbus</artifactId>
+            <version>0.0.7.RELEASE</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>viritin</artifactId>
+            <version>1.57</version>
+        </dependency>
+        <!-- Using Vaadin add-ons with client side extensions is easy, switch
+        as an example in this project, see also vaadin-maven-plugin
+        configuration.
+        -->
+        <dependency>
+            <groupId>org.vaadin.teemu</groupId>
+            <artifactId>switch</artifactId>
+            <version>2.0.2</version>
+        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-			<scope>runtime</scope>
+            <scope>runtime</scope>
         </dependency>
 
-		<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -88,6 +106,11 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!-- Using client side Vaadin add-ons (Switch in this example) 
+                 require a custom built "widgetset". Vaadin maven plugin does
+                 that automatically, here using a handy cloud service with CDN
+                 hosting.
+            -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -109,40 +132,9 @@
 
     <repositories>
         <repository>
-            <id>vaadin-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>vaadin-prereleases</id>
-            <name>Vaadin Pre-releases</name>
-            <url>https://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
-        <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-
-        <repository>
-            <id>sonatype-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vaadin-prereleases</id>
-            <name>Vaadin Pre-releases</name>
-            <url>https://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>

@@ -13,9 +13,11 @@ import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.vaadin.viritin.SortableLazyList;
+import org.vaadin.spring.events.EventBus;
+import org.vaadin.spring.events.EventBusListener;
 import org.vaadin.viritin.button.ConfirmButton;
 import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.components.DisclosurePanel;
 import org.vaadin.viritin.fields.MTable;
 import org.vaadin.viritin.label.RichText;
 import org.vaadin.viritin.layouts.MHorizontalLayout;
@@ -24,9 +26,11 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @Title("PhoneBook CRUD example")
 @Theme("valo")
 @SpringUI
-public class MainUI extends UI {
+public class MainUI extends UI implements EventBusListener<PersonModifiedEvent> {
 
     PersonRepository repo;
+    PersonForm personForm;
+    EventBus.UIEventBus eventBus;
 
     private MTable<Person> list = new MTable<>(Person.class)
             .withProperties("id", "name", "email")
@@ -39,23 +43,28 @@ public class MainUI extends UI {
     private Button delete = new ConfirmButton(FontAwesome.TRASH_O,
             "Are you sure you want to delete the entry?", this::remove);
 
-
     @Autowired
-    public MainUI(PersonRepository r) {
+    public MainUI(PersonRepository r, PersonForm f, EventBus.UIEventBus b) {
         this.repo = r;
+        this.personForm = f;
+        this.eventBus = b;
     }
 
     @Override
     protected void init(VaadinRequest request) {
+        DisclosurePanel aboutBox = new DisclosurePanel("Spring Boot JPA CRUD example with Vaadin UI", new RichText().withMarkDownResource("/welcome.md"));
         setContent(
                 new MVerticalLayout(
-                        new RichText().withMarkDownResource("/welcome.md"),
+                        aboutBox,
                         new MHorizontalLayout(addNew, edit, delete),
                         list
                 ).expand(list)
         );
         listEntities();
         list.addMValueChangeListener(e -> adjustActionButtonState());
+
+        // Listen to change events emitted by PersonForm see onEvent method
+        eventBus.subscribe(this);
     }
 
     protected void adjustActionButtonState() {
@@ -70,12 +79,11 @@ public class MainUI extends UI {
         // A dead simple in memory listing would be:
         // list.setBeans(repo.findAll());
 
-        // Lazy binding with SortableLazyList: memory and query efficient 
-        // connection from Vaadin Table to Spring Repository
-        // Note that fetching strategies can be given to MTable constructor as well.
-        // Use this approach if you expect you'll have lots of data in your 
-        // table.
-        list.setBeans(new SortableLazyList<>(
+        // Lazy binding for better optimized connection from the Vaadin Table to
+        // Spring Repository. This approach uses less memory and database
+        // resources. Use this approach if you expect you'll have lots of data 
+        // in your table. There are simpler APIs if you don't need sorting.
+        list.lazyLoadFrom(
                 // entity fetching strategy
                 (firstRow, asc, sortProperty) -> repo.findAllBy(
                         new PageRequest(
@@ -89,7 +97,7 @@ public class MainUI extends UI {
                 // count fetching strategy
                 () -> (int) repo.count(),
                 PAGESIZE
-        ));
+        );
         adjustActionButtonState();
 
     }
@@ -109,26 +117,14 @@ public class MainUI extends UI {
     }
 
     protected void edit(final Person phoneBookEntry) {
-        PhoneBookEntryForm phoneBookEntryForm = new PhoneBookEntryForm(
-                phoneBookEntry);
-        phoneBookEntryForm.openInModalPopup();
-        phoneBookEntryForm.setSavedHandler(this::saveEntry);
-        phoneBookEntryForm.setResetHandler(this::resetEntry);
+        personForm.setEntity(phoneBookEntry);
+        personForm.openInModalPopup();
     }
 
-    public void saveEntry(Person entry) {
-        repo.save(entry);
+    @Override
+    public void onEvent(org.vaadin.spring.events.Event<PersonModifiedEvent> event) {
         listEntities();
-        closeWindow();
-    }
-
-    public void resetEntry(Person entry) {
-        listEntities();
-        closeWindow();
-    }
-
-    protected void closeWindow() {
-        getWindows().stream().forEach(w -> removeWindow(w));
+        personForm.closePopup();
     }
 
 }
