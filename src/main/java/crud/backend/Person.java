@@ -1,19 +1,16 @@
 package crud.backend;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class Person implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +18,6 @@ public class Person implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDay;
-
-    private Boolean colleague;
 
     @NotNull(message = "Name is required")
     @Size(min = 3, max = 50, message = "name must be longer than 3 and less than 40 characters")
@@ -51,14 +46,6 @@ public class Person implements Serializable {
 
     public void setBirthDay(Date birthDay) {
         this.birthDay = birthDay;
-    }
-
-    public Boolean getColleague() {
-        return colleague;
-    }
-
-    public void setColleague(Boolean colleague) {
-        this.colleague = colleague;
     }
 
     public String getName() {

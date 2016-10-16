@@ -9,8 +9,6 @@ import crud.backend.Person;
 import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
-import org.vaadin.spring.events.EventBus.UIEventBus;
-import org.vaadin.teemu.switchui.Switch;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.layouts.MFormLayout;
@@ -20,6 +18,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @SpringComponent
 public class PersonForm extends AbstractForm<Person> {
 
+    private static final long serialVersionUID = 1L;
+
     EventBus.UIEventBus eventBus;
     PersonRepository repo;
 
@@ -27,9 +27,6 @@ public class PersonForm extends AbstractForm<Person> {
     TextField email = new MTextField("Email");
     TextField phoneNumber = new MTextField("Phone");
     DateField birthDay = new DateField("Birthday");
-    // Typically you'd use std CheckBox, using Swithch to demonstrate
-    // the awesome extendions by the community: http://vaadin.com/directory
-    Switch colleague = new Switch("Colleague");
 
     @Autowired
     PersonForm(PersonRepository r, EventBus.UIEventBus b) {
@@ -55,8 +52,7 @@ public class PersonForm extends AbstractForm<Person> {
                         name,
                         email,
                         phoneNumber,
-                        birthDay,
-                        colleague
+                        birthDay
                 ).withWidth(""),
                 getToolbar()
         ).withWidth("");

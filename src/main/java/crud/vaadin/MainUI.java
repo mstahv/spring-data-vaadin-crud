@@ -29,6 +29,8 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @Theme("valo")
 @SpringUI
 public class MainUI extends UI implements EventBusListener<PersonModifiedEvent> {
+
+    private static final long serialVersionUID = 1L;
     
     PersonRepository repo;
     PersonForm personForm;
