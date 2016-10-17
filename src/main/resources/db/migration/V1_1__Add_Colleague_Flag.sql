@@ -1,0 +1,1 @@
+ALTER TABLE person ADD colleague boolean;

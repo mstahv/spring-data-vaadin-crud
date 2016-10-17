@@ -23,6 +23,8 @@ public class Person implements Serializable {
     @Size(min = 3, max = 50, message = "name must be longer than 3 and less than 40 characters")
     private String name;
 
+    private Boolean colleague;
+
     private String phoneNumber;
 
     @NotNull(message = "Email is required")
@@ -72,4 +74,11 @@ public class Person implements Serializable {
         this.email = email;
     }
 
+    public Boolean getColleague() {
+        return colleague;
+    }
+
+    public void setColleague(Boolean colleague) {
+        this.colleague = colleague;
+    }
 }

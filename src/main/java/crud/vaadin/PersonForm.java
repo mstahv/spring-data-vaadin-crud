@@ -9,6 +9,7 @@ import crud.backend.Person;
 import crud.backend.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.spring.events.EventBus;
+import org.vaadin.teemu.switchui.Switch;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.layouts.MFormLayout;
@@ -27,6 +28,7 @@ public class PersonForm extends AbstractForm<Person> {
     TextField email = new MTextField("Email");
     TextField phoneNumber = new MTextField("Phone");
     DateField birthDay = new DateField("Birthday");
+    Switch colleague = new Switch("Colleague");
 
     @Autowired
     PersonForm(PersonRepository r, EventBus.UIEventBus b) {
@@ -52,7 +54,8 @@ public class PersonForm extends AbstractForm<Person> {
                         name,
                         email,
                         phoneNumber,
-                        birthDay
+                        birthDay,
+                        colleague
                 ).withWidth(""),
                 getToolbar()
         ).withWidth("");
