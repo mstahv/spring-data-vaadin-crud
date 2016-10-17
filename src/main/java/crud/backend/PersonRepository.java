@@ -13,11 +13,11 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     /* A version to fetch List instead of Page to avoid extra count query. */
     List<Person> findAllBy(Pageable pageable);
     
-    List<Person> findByNameLikeIgnoreCase(String emailFilter);
+    List<Person> findByNameLikeIgnoreCase(String nameFilter);
     
     // For lazy loading and filtering
-    List<Person> findByNameLikeIgnoreCase(String emailFilter, Pageable pageable);
+    List<Person> findByNameLikeIgnoreCase(String nameFilter, Pageable pageable);
     
-    long countByNameLike(String emailFilter);
+    long countByNameLike(String nameFilter);
 
 }
