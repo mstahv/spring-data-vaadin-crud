@@ -15,7 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.vaadin.spring.events.EventBus;
-import org.vaadin.spring.events.EventBusListener;
+import org.vaadin.spring.events.EventScope;
+import org.vaadin.spring.events.annotation.EventBusListenerMethod;
 import org.vaadin.viritin.button.ConfirmButton;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.components.DisclosurePanel;
@@ -28,7 +29,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 @Title("PhoneBook CRUD example")
 @Theme("valo")
 @SpringUI
-public class MainUI extends UI implements EventBusListener<PersonModifiedEvent> {
+public class MainUI extends UI {
 
     private static final long serialVersionUID = 1L;
     
@@ -138,9 +139,9 @@ public class MainUI extends UI implements EventBusListener<PersonModifiedEvent> 
         personForm.setEntity(phoneBookEntry);
         personForm.openInModalPopup();
     }
-    
-    @Override
-    public void onEvent(org.vaadin.spring.events.Event<PersonModifiedEvent> event) {
+
+    @EventBusListenerMethod(scope = EventScope.UI)
+    public void onPersonModified(PersonModifiedEvent event) {
         listEntities();
         personForm.closePopup();
     }
