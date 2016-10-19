@@ -48,8 +48,7 @@ public class MainUI extends UI implements EventBusListener<PersonModifiedEvent> 
     private Button edit = new MButton(FontAwesome.PENCIL_SQUARE_O, this::edit);
     private Button delete = new ConfirmButton(FontAwesome.TRASH_O,
             "Are you sure you want to delete the entry?", this::remove);
-    
-    @Autowired
+
     public MainUI(PersonRepository r, PersonForm f, EventBus.UIEventBus b) {
         this.repo = r;
         this.personForm = f;

@@ -30,7 +30,6 @@ public class PersonForm extends AbstractForm<Person> {
     DateField birthDay = new DateField("Birthday");
     Switch colleague = new Switch("Colleague");
 
-    @Autowired
     PersonForm(PersonRepository r, EventBus.UIEventBus b) {
         this.repo = r;
         this.eventBus = b;
