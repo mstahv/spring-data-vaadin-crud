@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <version.vaadin>7.7.3</version.vaadin>
+        <version.vaadin-spring>1.1.0</version.vaadin-spring>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -98,10 +99,15 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-spring</artifactId>
+                <version>${version.vaadin-spring}</version>
+            </dependency>
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-spring-boot-starter</artifactId>
-				<version>1.0.2</version>
+				<version>${version.vaadin-spring}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.vaadin.spring.extensions</groupId>
