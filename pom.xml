@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.2.RELEASE</version>
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
 
-	<groupId>com.example</groupId>
+    <groupId>com.example</groupId>
     <artifactId>spring-data-vaadin-crud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <description>Simple CRUD with Vaadin and Spring Data backend</description>
@@ -16,8 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>7.7.3</version.vaadin>
-        <version.vaadin-spring>1.1.0</version.vaadin-spring>
+        <version.vaadin>8.0.4</version.vaadin>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -40,7 +39,7 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-		<!-- vaadin4spring https://github.com/peholmst/vaadin4spring
+        <!-- vaadin4spring https://github.com/peholmst/vaadin4spring
              contains lots of handy helpers for serious Spring + Vaadin 
              applications. This example uses event bus to decouple the editor 
              form from the MainUI class.
@@ -90,47 +89,37 @@
         </dependency>
     </dependencies>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-bom</artifactId>
-				<version>${version.vaadin}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
             <dependency>
                 <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-spring</artifactId>
-                <version>${version.vaadin-spring}</version>
+                <artifactId>vaadin-bom</artifactId>
+                <version>${version.vaadin}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-spring-boot-starter</artifactId>
-				<version>${version.vaadin-spring}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.vaadin.spring.extensions</groupId>
-				<artifactId>vaadin-spring-ext-boot</artifactId>
-				<version>0.0.7.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>org.vaadin.spring.addons</groupId>
-				<artifactId>vaadin-spring-addon-eventbus</artifactId>
-				<version>0.0.7.RELEASE</version>
-			</dependency>
-			<dependency>
-				<groupId>org.vaadin</groupId>
-				<artifactId>viritin</artifactId>
-				<version>1.57</version>
-			</dependency>
-			<dependency>
-				<groupId>org.vaadin.teemu</groupId>
-				<artifactId>switch</artifactId>
-				<version>2.0.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.vaadin.spring.extensions</groupId>
+                <artifactId>vaadin-spring-ext-boot</artifactId>
+                <version>2.0.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.vaadin.spring.addons</groupId>
+                <artifactId>vaadin-spring-addon-eventbus</artifactId>
+                <version>2.0.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.vaadin</groupId>
+                <artifactId>viritin</artifactId>
+                <version>2.0.beta1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.vaadin.teemu</groupId>
+                <artifactId>switch</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
