@@ -105,23 +105,23 @@ public class MainUI extends UI {
         // Spring Repository. This approach uses less memory and database
         // resources. Use this approach if you expect you'll have lots of data 
         // in your table. There are simpler APIs if you don't need sorting.
-        list.setDataProvider(
-                // entity fetching strategy
-                (sortOrder, offset, limit) -> {
-                    final List<Person> page = repo.findByNameLikeIgnoreCase(likeFilter,
-                            new PageRequest(
-                                    offset / limit,
-                                    limit,
-                                    sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC,
-                                    // fall back to id as "natural order"
-                                    sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted()
-                            )
-                    );
-                    return page.subList(offset % limit, page.size()).stream();
-                },
-                // count fetching strategy
-                () -> (int) repo.countByNameLike(likeFilter)
-        );
+        //list.setDataProvider(
+        //        // entity fetching strategy
+        //        (sortOrder, offset, limit) -> {
+        //            final List<Person> page = repo.findByNameLikeIgnoreCase(likeFilter,
+        //                    new PageRequest(
+        //                            offset / limit,
+        //                            limit,
+        //                            sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC,
+        //                            // fall back to id as "natural order"
+        //                            sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted()
+        //                    )
+        //            );
+        //            return page.subList(offset % limit, page.size()).stream();
+        //        },
+        //        // count fetching strategy
+        //        () -> (int) repo.countByNameLike(likeFilter)
+        //);
         adjustActionButtonState();
 
     }
