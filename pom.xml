@@ -147,12 +147,17 @@
                 <executions>
                     <execution>
                         <goals>
+                            <!-- Needed for theme: -->
                             <goal>update-widgetset</goal>
                             <goal>compile</goal>
+                            <!-- Needed for theme: -->
+                            <goal>update-theme</goal>
+                            <goal>compile-theme</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
+                    <!-- Use local as value here for local widgetset compilation -->
                     <widgetsetMode>cdn</widgetsetMode>
                 </configuration>
             </plugin>
