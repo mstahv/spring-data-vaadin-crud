@@ -14,6 +14,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.UI;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -99,29 +100,41 @@ public class MainUI extends UI {
 
         // But we want to support filtering, first add the % marks for SQL name query
         String likeFilter = "%" + nameFilter + "%";
-        list.setRows(repo.findByNameLikeIgnoreCase(likeFilter));
+        
+        // If there is a moderate amount of rows, one can just fetch everything
+        //list.setRows(repo.findByNameLikeIgnoreCase(likeFilter));
 
-        // Lazy binding for better optimized connection from the Vaadin Table to
+        // Lazy binding for better optimized connection from the Vaadin Grid to
         // Spring Repository. This approach uses less memory and database
         // resources. Use this approach if you expect you'll have lots of data 
         // in your table. There are simpler APIs if you don't need sorting.
-        //list.setDataProvider(
-        //        // entity fetching strategy
-        //        (sortOrder, offset, limit) -> {
-        //            final List<Person> page = repo.findByNameLikeIgnoreCase(likeFilter,
-        //                    new PageRequest(
-        //                            offset / limit,
-        //                            limit,
-        //                            sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC,
-        //                            // fall back to id as "natural order"
-        //                            sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted()
-        //                    )
-        //            );
-        //            return page.subList(offset % limit, page.size()).stream();
-        //        },
-        //        // count fetching strategy
-        //        () -> (int) repo.countByNameLike(likeFilter)
-        //);
+        list.setDataProvider(
+                // lazy entity fetching strategy, due to a design flaw in DataProvider API,
+                // this is bit tricky with Spring Data's Pageable abstration as requests
+                // by Grid may be on two pages, see https://github.com/vaadin/framework/issues/8982
+                // TODO see if this could be simplified in Viritin MGrid
+                (sortOrder, offset, limit) -> {
+                    final int pageSize = limit;
+                    final int startPage = (int) Math.floor((double) offset / pageSize);
+                    final int endPage = (int) Math.floor((double) (offset + pageSize - 1) / pageSize);
+                    final Sort.Direction sortDirection = sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC;
+                    // fall back to id as "natural order"
+                    final String sortProperty = sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted();
+                    if (startPage != endPage) {
+                        List<Person> page0 = repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(startPage, pageSize, sortDirection, sortProperty));
+                        page0 = page0.subList(offset % pageSize, page0.size());
+                        List<Person> page1 = repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(endPage, pageSize, sortDirection, sortProperty));
+                        page1 = page1.subList(0, limit - page0.size());
+                        List<Person> result = new ArrayList<>(page0);
+                        result.addAll(page1);
+                        return result.stream();
+                    } else {
+                        return repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(startPage, pageSize, sortDirection, sortProperty)).stream();
+                    }
+                },
+                // count fetching strategy
+                () -> (int) repo.countByNameLikeIgnoreCase(likeFilter)
+        );
         adjustActionButtonState();
 
     }

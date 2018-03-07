@@ -18,6 +18,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     // For lazy loading and filtering
     List<Person> findByNameLikeIgnoreCase(String nameFilter, Pageable pageable);
     
-    long countByNameLike(String nameFilter);
+    long countByNameLikeIgnoreCase(String nameFilter);
 
 }
