@@ -93,21 +93,20 @@ public class MainUI extends UI {
 
     private void listEntities(String nameFilter) {
         String likeFilter = "%" + nameFilter + "%";
-//define data to be fetched in pages of 100 rows
-personTable.setPageSize(100);
+        //define data to be fetched in pages of 100 rows
+        personTable.setPageSize(100);
 
-personTable.setItems( (sortOrder, offset, limit) -> {
-    Sort.Direction sortDirection = 
-    		(sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING) 
-    		? Sort.Direction.ASC : Sort.Direction.DESC;
-    String sortProperty = sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted();
-    return repo.findByNameLikeIgnoreCase(likeFilter, 
-    		PageRequest.of(offset / limit, limit, sortDirection, sortProperty))
-    		.stream();
-});
+        personTable.setItems( (sortOrder, offset, limit) -> {
+            Sort.Direction sortDirection =
+                    (sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING)
+                    ? Sort.Direction.ASC : Sort.Direction.DESC;
+            String sortProperty = sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted();
+            return repo.findByNameLikeIgnoreCase(likeFilter,
+                    PageRequest.of(offset / limit, limit, sortDirection, sortProperty))
+                    .stream();
+        });
 
         adjustActionButtonState();
-
     }
 
     public void add(ClickEvent clickEvent) {
