@@ -1,19 +1,18 @@
 package crud.vaadin;
 
-import com.vaadin.data.converter.LocalDateToDateConverter;
-import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
+import org.vaadin.firitin.components.formlayout.VFormLayout;
+import org.vaadin.firitin.components.orderedlayout.VVerticalLayout;
+import org.vaadin.firitin.components.textfield.VTextField;
+import org.vaadin.firitin.form.AbstractForm;
 import org.vaadin.spring.events.EventBus;
-import org.vaadin.teemu.switchui.Switch;
-import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.form.AbstractForm;
-import org.vaadin.viritin.layouts.MFormLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @UIScope
 @SpringComponent
@@ -24,11 +23,11 @@ public class PersonForm extends AbstractForm<Person> {
     EventBus.UIEventBus eventBus;
     PersonRepository repo;
 
-    TextField name = new MTextField("Name");
-    TextField email = new MTextField("Email");
-    TextField phoneNumber = new MTextField("Phone");
-    DateField birthDay = new DateField("Birthday");
-    Switch colleague = new Switch("Colleague");
+    TextField name = new VTextField("Name");
+    TextField email = new VTextField("Email");
+    TextField phoneNumber = new VTextField("Phone");
+    DatePicker birthDay = new DatePicker("Birthday");
+    Checkbox colleague = new Checkbox("Colleague");
 
     PersonForm(PersonRepository r, EventBus.UIEventBus b) {
         super(Person.class);
@@ -43,25 +42,13 @@ public class PersonForm extends AbstractForm<Person> {
             eventBus.publish(this, new PersonModifiedEvent(person));
         });
         setResetHandler(p -> eventBus.publish(this, new PersonModifiedEvent(p)));
-
-        setSizeUndefined();
-    }
-
-    @Override
-    protected void bind() {
-        // DateField in Vaadin 8 uses LocalDate by default, the backend
-        // uses plain old java.util.Date, thus we need a converter, using
-        // built in helper here
-        getBinder()
-                .forMemberField(birthDay)
-                .withConverter(new LocalDateToDateConverter());
-        super.bind();
+        
     }
 
     @Override
     protected Component createContent() {
-        return new MVerticalLayout(
-                new MFormLayout(
+        return new VVerticalLayout(
+                new VFormLayout(
                         name,
                         email,
                         phoneNumber,

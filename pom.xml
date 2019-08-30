@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.0.RELEASE</version>
+        <version>2.1.7.RELEASE</version>
     </parent>
 
     <groupId>com.example</groupId>
@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>8.6.0</version.vaadin>
+        <version.vaadin>14.0.2</version.vaadin>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -33,7 +33,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
@@ -44,27 +43,18 @@
              applications. This example uses event bus to decouple the editor 
              form from the MainUI class.
         -->
-        <dependency>
-            <groupId>org.vaadin.spring.extensions</groupId>
-            <artifactId>vaadin-spring-ext-boot</artifactId>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.vaadin.spring.extensions</groupId> -->
+<!--             <artifactId>vaadin-spring-ext-boot</artifactId> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>org.vaadin.spring.addons</groupId>
             <artifactId>vaadin-spring-addon-eventbus</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>viritin</artifactId>
         </dependency>
         <!-- Using Vaadin add-ons with client side extensions is easy, switch
         as an example in this project, see also vaadin-maven-plugin
         configuration.
         -->
-        <dependency>
-            <groupId>org.vaadin.teemu</groupId>
-            <artifactId>switch</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -87,6 +77,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.vaadin</groupId>
+            <artifactId>flow-viritin</artifactId>
+            <version>0.2.8</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -98,25 +94,20 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.vaadin.spring.extensions</groupId>
-                <artifactId>vaadin-spring-ext-boot</artifactId>
-                <version>2.0.0.RELEASE</version>
-            </dependency>
+             <dependency> 
+                 <groupId>org.vaadin.spring.extensions</groupId> 
+                 <artifactId>vaadin-spring-ext-boot</artifactId> 
+                 <version>14.0.0</version> 
+             </dependency> 
             <dependency>
                 <groupId>org.vaadin.spring.addons</groupId>
                 <artifactId>vaadin-spring-addon-eventbus</artifactId>
-                <version>2.0.0.RELEASE</version>
+                <version>14.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.vaadin</groupId>
                 <artifactId>viritin</artifactId>
                 <version>2.8</version>
-            </dependency>
-            <dependency>
-                <groupId>org.vaadin.teemu</groupId>
-                <artifactId>switch</artifactId>
-                <version>3.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -135,31 +126,22 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!-- Using client side Vaadin add-ons (Switch in this example) 
-                 require a custom built "widgetset". Vaadin maven plugin does
-                 that automatically, here using a handy cloud service with CDN
-                 hosting.
+            <!--
+                Take care of synchronizing java dependencies and imports in
+                package.json and main.js files.
+                It also creates webpack.config.js if not exists yet.
             -->
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
-                <version>${version.vaadin}</version>
+                <version>14.0.2</version>
                 <executions>
                     <execution>
                         <goals>
-                            <!-- Needed for theme: -->
-                            <goal>update-widgetset</goal>
-                            <goal>compile</goal>
-                            <!-- Needed for theme: -->
-                            <goal>update-theme</goal>
-                            <goal>compile-theme</goal>
+                            <goal>prepare-frontend</goal>
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- Use local as value here for local widgetset compilation -->
-                    <widgetsetMode>cdn</widgetsetMode>
-                </configuration>
             </plugin>
         </plugins>
     </build>

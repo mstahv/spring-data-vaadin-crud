@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Person implements Serializable {
@@ -16,8 +16,8 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // IDENTITY as the example has flyway in it and fixed schema in src/main/resources/db/migration
     private long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date birthDay;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDate birthDay;
 
     @NotNull(message = "Name is required")
     @Size(min = 3, max = 50, message = "name must be longer than 3 and less than 40 characters")
@@ -42,11 +42,11 @@ public class Person implements Serializable {
         this.id = id;
     }
 
-    public Date getBirthDay() {
+    public LocalDate getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(Date birthDay) {
+    public void setBirthDay(LocalDate birthDay) {
         this.birthDay = birthDay;
     }
 

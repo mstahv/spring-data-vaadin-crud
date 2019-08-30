@@ -1,39 +1,31 @@
 package crud.vaadin;
 
-import com.vaadin.annotations.Theme;
-import com.vaadin.annotations.Title;
-import com.vaadin.data.provider.GridSortOrder;
-import com.vaadin.data.provider.QuerySortOrder;
-import com.vaadin.event.SortEvent;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.data.sort.SortDirection;
-import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.data.provider.SortDirection;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.annotation.SpringComponent;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.vaadin.firitin.button.DeleteButton;
+import org.vaadin.firitin.components.DisclosurePanel;
+import org.vaadin.firitin.components.RichText;
+import org.vaadin.firitin.components.button.VButton;
+import org.vaadin.firitin.components.grid.VGrid;
+import org.vaadin.firitin.components.orderedlayout.VHorizontalLayout;
+import org.vaadin.firitin.components.orderedlayout.VVerticalLayout;
+import org.vaadin.firitin.components.textfield.VTextField;
 import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.events.EventScope;
 import org.vaadin.spring.events.annotation.EventBusListenerMethod;
-import org.vaadin.viritin.button.ConfirmButton;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.components.DisclosurePanel;
-import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.grid.MGrid;
-import org.vaadin.viritin.label.RichText;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
-@Title("PhoneBook CRUD example")
-@Theme("valo")
-@SpringUI
-public class MainUI extends UI {
+@Route
+public class MainView extends VVerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,42 +33,37 @@ public class MainUI extends UI {
     PersonForm personForm;
     EventBus.UIEventBus eventBus;
 
-    private MGrid<Person> list = new MGrid<>(Person.class)
+    private VGrid<Person> list = new VGrid<>(Person.class)
             .withProperties("id", "name", "email")
-            .withColumnHeaders("id", "Name", "Email")
-            // not yet supported by V8
             //.setSortableProperties("name", "email")
             .withFullWidth();
 
-    private MTextField filterByName = new MTextField()
+    private VTextField filterByName = new VTextField()
             .withPlaceholder("Filter by name");
-    private Button addNew = new MButton(VaadinIcons.PLUS, this::add);
-    private Button edit = new MButton(VaadinIcons.PENCIL, this::edit);
-    private Button delete = new ConfirmButton(VaadinIcons.TRASH,
-            "Are you sure you want to delete the entry?", this::remove);
+    private Button addNew = new VButton(VaadinIcon.PLUS.create()).onClick(this::add);
+    private Button edit = new VButton(VaadinIcon.PENCIL.create()).onClick(this::edit);
+    private DeleteButton delete = new DeleteButton().withIcon(VaadinIcon.TRASH.create())
+            .withConfirmHandler(this::remove);
 
-    public MainUI(PersonRepository r, PersonForm f, EventBus.UIEventBus b) {
+    public MainView(PersonRepository r, PersonForm f, EventBus.UIEventBus uiBus) {
         this.repo = r;
         this.personForm = f;
-        this.eventBus = b;
-    }
-
-    @Override
-    protected void init(VaadinRequest request) {
+        this.eventBus = uiBus;
+        
         DisclosurePanel aboutBox = new DisclosurePanel("Spring Boot JPA CRUD example with Vaadin UI", new RichText().withMarkDownResource("/welcome.md"));
-        setContent(
-                new MVerticalLayout(
-                        aboutBox,
-                        new MHorizontalLayout(filterByName, addNew, edit, delete),
-                        list
-                ).expand(list)
+
+        add(
+            aboutBox,
+            new VHorizontalLayout(filterByName, addNew, edit, delete)
         );
+        addExpanded(list);
         listEntities();
 
         list.asSingleSelect().addValueChangeListener(e -> adjustActionButtonState());
         filterByName.addValueChangeListener(e -> {
             listEntities(e.getValue());
         });
+        filterByName.setValueChangeMode(ValueChangeMode.LAZY);
 
         // Listen to change events emitted by PersonForm see onEvent method
         eventBus.subscribe(this);
@@ -107,24 +94,25 @@ public class MainUI extends UI {
         // Lazy binding for better optimized connection from the Vaadin Grid to
         // Spring Repository. This approach uses less memory and database
         // resources. Use this approach if you expect you'll have lots of data 
-        // in your table. There are simpler APIs if you don't need sorting.
+        // in your table. There are simpler APIs if you don't need sorting.s
         list.setDataProvider(
                 // lazy entity fetching strategy, due to a design flaw in DataProvider API,
                 // this is bit tricky with Spring Data's Pageable abstration as requests
                 // by Grid may be on two pages, see https://github.com/vaadin/framework/issues/8982
                 // TODO see if this could be simplified in Viritin MGrid
-                (sortOrder, offset, limit) -> {
-                    final int pageSize = limit;
-                    final int startPage = (int) Math.floor((double) offset / pageSize);
-                    final int endPage = (int) Math.floor((double) (offset + pageSize - 1) / pageSize);
-                    final Sort.Direction sortDirection = sortOrder.isEmpty() || sortOrder.get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC;
+                q -> {
+                    final int pageSize = q.getLimit();
+                    final int startPage = (int) Math.floor((double) q.getOffset() / pageSize);
+                    final int endPage = (int) Math.floor((double) (q.getOffset() + pageSize - 1) / pageSize);
+                    final Sort.Direction sortDirection = q.getSortOrders().isEmpty() || q.getSortOrders().get(0).getDirection() == SortDirection.ASCENDING ? Sort.Direction.ASC : Sort.Direction.DESC;
                     // fall back to id as "natural order"
-                    final String sortProperty = sortOrder.isEmpty() ? "id" : sortOrder.get(0).getSorted();
+                    
+                    final String sortProperty = q.getSortOrders().isEmpty() ? "id" : q.getSortOrders().get(0).getSorted();
                     if (startPage != endPage) {
                         List<Person> page0 = repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(startPage, pageSize, sortDirection, sortProperty));
-                        page0 = page0.subList(offset % pageSize, page0.size());
+                        page0 = page0.subList(q.getOffset() % pageSize, page0.size());
                         List<Person> page1 = repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(endPage, pageSize, sortDirection, sortProperty));
-                        page1 = page1.subList(0, limit - page0.size());
+                        page1 = page1.subList(0, pageSize - page0.size());
                         List<Person> result = new ArrayList<>(page0);
                         result.addAll(page1);
                         return result.stream();
@@ -132,18 +120,19 @@ public class MainUI extends UI {
                         return repo.findByNameLikeIgnoreCase(likeFilter, PageRequest.of(startPage, pageSize, sortDirection, sortProperty)).stream();
                     }
                 },
+                
                 // count fetching strategy
-                () -> (int) repo.countByNameLikeIgnoreCase(likeFilter)
+                q -> (int) repo.countByNameLikeIgnoreCase(likeFilter)
         );
         adjustActionButtonState();
 
     }
 
-    public void add(ClickEvent clickEvent) {
+    public void add() {
         edit(new Person());
     }
 
-    public void edit(ClickEvent e) {
+    public void edit() {
         edit(list.asSingleSelect().getValue());
     }
 
