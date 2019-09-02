@@ -20,7 +20,6 @@ public class PersonForm extends AbstractForm<Person> {
 
     private static final long serialVersionUID = 1L;
 
-    EventBus.UIEventBus eventBus;
     PersonRepository repo;
 
     TextField name = new VTextField("Name");
@@ -29,10 +28,9 @@ public class PersonForm extends AbstractForm<Person> {
     DatePicker birthDay = new DatePicker("Birthday");
     Checkbox colleague = new Checkbox("Colleague");
 
-    PersonForm(PersonRepository r, EventBus.UIEventBus b) {
+    PersonForm(PersonRepository r, EventBus.UIEventBus eventBus) {
         super(Person.class);
         this.repo = r;
-        this.eventBus = b;
 
         // On save & cancel, publish events that other parts of the UI can listen
         setSavedHandler(person -> {

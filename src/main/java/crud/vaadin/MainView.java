@@ -2,10 +2,10 @@ package crud.vaadin;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.annotation.SpringComponent;
 import crud.backend.Person;
 import crud.backend.PersonRepository;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import org.vaadin.firitin.components.grid.VGrid;
 import org.vaadin.firitin.components.orderedlayout.VHorizontalLayout;
 import org.vaadin.firitin.components.orderedlayout.VVerticalLayout;
 import org.vaadin.firitin.components.textfield.VTextField;
-import org.vaadin.spring.events.EventBus;
 import org.vaadin.spring.events.EventScope;
 import org.vaadin.spring.events.annotation.EventBusListenerMethod;
 
@@ -31,7 +30,6 @@ public class MainView extends VVerticalLayout {
 
     PersonRepository repo;
     PersonForm personForm;
-    EventBus.UIEventBus eventBus;
 
     private VGrid<Person> list = new VGrid<>(Person.class)
             .withProperties("id", "name", "email")
@@ -45,10 +43,9 @@ public class MainView extends VVerticalLayout {
     private DeleteButton delete = new DeleteButton().withIcon(VaadinIcon.TRASH.create())
             .withConfirmHandler(this::remove);
 
-    public MainView(PersonRepository r, PersonForm f, EventBus.UIEventBus uiBus) {
+    public MainView(PersonRepository r, PersonForm f, StatsDisplay statsDisplay) {
         this.repo = r;
         this.personForm = f;
-        this.eventBus = uiBus;
         
         DisclosurePanel aboutBox = new DisclosurePanel("Spring Boot JPA CRUD example with Vaadin UI", new RichText().withMarkDownResource("/welcome.md"));
 
@@ -57,6 +54,7 @@ public class MainView extends VVerticalLayout {
             new VHorizontalLayout(filterByName, addNew, edit, delete)
         );
         addExpanded(list);
+        add(statsDisplay);
         listEntities();
 
         list.asSingleSelect().addValueChangeListener(e -> adjustActionButtonState());
@@ -65,8 +63,6 @@ public class MainView extends VVerticalLayout {
         });
         filterByName.setValueChangeMode(ValueChangeMode.LAZY);
 
-        // Listen to change events emitted by PersonForm see onEvent method
-        eventBus.subscribe(this);
     }
 
     protected void adjustActionButtonState() {

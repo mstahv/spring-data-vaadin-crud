@@ -19,5 +19,7 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> findByNameLikeIgnoreCase(String nameFilter, Pageable pageable);
     
     long countByNameLikeIgnoreCase(String nameFilter);
+    
+    long countByColleagueTrue();
 
 }
