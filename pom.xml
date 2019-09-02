@@ -80,7 +80,7 @@
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>flow-viritin</artifactId>
-            <version>0.2.8</version>
+            <version>0.2.9</version>
             <type>jar</type>
         </dependency>
     </dependencies>
