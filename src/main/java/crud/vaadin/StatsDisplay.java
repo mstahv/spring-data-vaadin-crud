@@ -9,8 +9,12 @@ import org.vaadin.spring.events.EventScope;
 import org.vaadin.spring.events.annotation.EventBusListenerMethod;
 
 /**
- * An other example class that listens PersonModifiedEvevent events fired by
- * PersonForm, without a direct dependency to the PersonForm.
+ * An view that shows how EventBus can help to decouple UI components.
+ * StatsDislay listens PersonModifiedEvevent events fired by PersonForm, without
+ * a direct dependency to the PersonForm. PersonForm or any other UI class don't
+ * need to know that StatsDisplay is interested about those changes. Also, if
+ * another view is introduced to edit Person objects, it can just emit the
+ * events and again, no changes are needed for StatsDisplay component.
  */
 @UIScope
 @SpringComponent
