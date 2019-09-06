@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>14.0.2</version.vaadin>
+        <version.vaadin>14.0.3</version.vaadin>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -112,25 +112,53 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--
-                Take care of synchronizing java dependencies and imports in
-                package.json and main.js files.
-                It also creates webpack.config.js if not exists yet.
-            -->
-            <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>14.0.2</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-frontend</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <build>
+                <plugins>
+                    <!--
+                        vaadin-maven-plugin creates an optimized client side bundle
+                        for production build. It requires NodeJS to be installed, so
+                        we use also frontend-maven-plugin to install that project
+                        locally automatically.
+                    -->
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>1.8.0</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <nodeVersion>v10.16.3</nodeVersion>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.vaadin</groupId>
+                        <artifactId>vaadin-maven-plugin</artifactId>
+                        <version>14.0.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-frontend</goal>
+                                    <goal>build-frontend</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
