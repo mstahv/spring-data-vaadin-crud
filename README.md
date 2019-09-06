@@ -8,6 +8,12 @@ As an example for a really easy Vaadin add-on usage, there is Switch add-on adde
 
 ## How to play with this example
 
+
+### Pre-requirements
+
+* JDK 8 or later
+* NodeJS 10.x or later is also needed by Vaadin to generate the front-end resource bundle. You can install NodeJS locally to your current project using Maven command: mvn com.github.eirslett:frontend-maven-plugin:1.7.6:install-node-and-npm -DnodeVersion="v10.16.3"
+
 ### Suggested method
 
 * Clone the project
@@ -35,12 +41,16 @@ java -jar target/spring-data-vaadin-crud-0.0.1-SNAPSHOT.jar
 
 ### Just deploy it
 
+For production ready package, `prod` Maven profile should be used. In this profile
+the front-end bundle is pre-built so that NodeJS is not needed for the server and
+server startup is faster.
+
 The built jar file is really simple to deploy in modern PaaS services. E.g. if you have existing Bluemix account and are already logged in with your cf (CLI) tools just execute following:
 
 ```
 git clone https://github.com/mstahv/spring-data-vaadin-crud.git
 cd spring-data-vaadin-crud
-mvn install
+mvn install -Pprod
 cf push choose-namefor-your-server-here -p target/*.jar -b https://github.com/cloudfoundry/java-buildpack.git
 
 ```
