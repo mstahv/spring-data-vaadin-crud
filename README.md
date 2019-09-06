@@ -4,8 +4,6 @@ A super simple single table CRUD example with [Spring Data JPA](http://projects.
 
 For larger applications, consider applying some commonly known design patterns for your UI code. Check e.g. [this MVP example](https://github.com/peholmst/vaadin4spring/tree/master/spring-vaadin-mvp).
 
-As an example for a really easy Vaadin add-on usage, there is Switch add-on added as a dependency and the application uses [wscdn.vaadin.com](https://wscdn.vaadin.com) service to compile and host the widgetset. To make it work in your project, see [this part in pom.xml](https://github.com/mstahv/spring-data-vaadin-crud/blob/master/pom.xml#L100-L112) and [this row](https://github.com/mstahv/spring-data-vaadin-crud/blob/master/src/main/java/crud/Application.java#L11) in your configuration.
-
 ## How to play with this example
 
 ### Suggested method
@@ -35,7 +33,7 @@ java -jar target/spring-data-vaadin-crud-0.0.1-SNAPSHOT.jar
 
 ### Just deploy it
 
-The built jar file is really simple to deploy in modern PaaS services. E.g. if you have existing Bluemix account and are already logged in with your cf (CLI) tools just execute following:
+The built jar file is really simple to deploy in modern PaaS services. E.g. if you have existing cloud foundry account and are already logged in with your cf (CLI) tools just execute following:
 
 ```
 git clone https://github.com/mstahv/spring-data-vaadin-crud.git
