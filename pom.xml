@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.7.RELEASE</version>
+        <version>2.2.8.RELEASE</version>
     </parent>
 
     <groupId>com.example</groupId>
@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>14.0.3</version.vaadin>
+        <version.vaadin>17.0-SNAPSHOT</version.vaadin>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -112,6 +112,19 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+	<plugin>
+		<groupId>com.vaadin</groupId>
+		<artifactId>vaadin-maven-plugin</artifactId>
+		<version>17.0-SNAPSHOT</version>
+		<executions>
+			<execution>
+				<goals>
+					<goal>prepare-frontend</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
+            
         </plugins>
     </build>
     
@@ -141,19 +154,6 @@
                         <configuration>
                             <nodeVersion>v10.16.3</nodeVersion>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.vaadin</groupId>
-                        <artifactId>vaadin-maven-plugin</artifactId>
-                        <version>14.0.2</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>prepare-frontend</goal>
-                                    <goal>build-frontend</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
