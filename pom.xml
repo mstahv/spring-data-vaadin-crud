@@ -16,7 +16,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <version.vaadin>17.0.0.alpha6</version.vaadin>
+        <version.vaadin>17.0-SNAPSHOT</version.vaadin>
         <start-class>crud.Application</start-class>
     </properties>
 
@@ -38,19 +38,7 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <!-- vaadin4spring https://github.com/peholmst/vaadin4spring
-             contains lots of handy helpers for serious Spring + Vaadin 
-             applications. This example uses event bus to decouple the editor 
-             form from the MainUI class.
-        -->
-        <dependency>
-            <groupId>org.vaadin.spring.addons</groupId>
-            <artifactId>vaadin-spring-addon-eventbus</artifactId>
-        </dependency>
-        <!-- Using Vaadin add-ons with client side extensions is easy, switch
-        as an example in this project, see also vaadin-maven-plugin
-        configuration.
-        -->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -72,12 +60,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>flow-viritin</artifactId>
-            <version>0.2.10</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
 
